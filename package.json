@@ -1,0 +1,22 @@
+{
+  "name": "Vizuly2",
+  "description": "Vizuly 2",
+  "version": "2.1.66",
+  "author": {
+    "name": "\"Thomas Gonzalez\" BrightPoint Consulting Inc.",
+    "url": "http://www.vizuly.io/"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-exec": "^3.0.0",
+    "grunt-sftp-deploy": "^0.2.5",
+    "grunt-version": "^1.0.0"
+  },
+  "dependencies": {
+    "grunt-contrib-concat": "^1.0.1"
+  }
+}
