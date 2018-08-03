@@ -18,7 +18,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.66
+// @version 2.1.79
 
 
 /**
@@ -298,6 +298,10 @@ vizuly2.core.component = function (parent, scope, props, events) {
 	// Remove any data tips when we mouseout.
 	component.removeDataTip = function() {
 		vizuly2.d3.select('.vz-data-tip').remove();
+	}
+	
+	component.parent = function () {
+		return scope.parent;
 	}
 	
 	//Return our finished component.

@@ -17,7 +17,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.66
+// @version 2.1.79
 
 // This contains all vizuly2.namespaces and enumerators.
 
