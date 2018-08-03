@@ -18,7 +18,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.79
+// @version 2.1.81
 
 
 /**
@@ -302,6 +302,17 @@ vizuly2.core.component = function (parent, scope, props, events) {
 	
 	component.parent = function () {
 		return scope.parent;
+	}
+	
+	component.destroy = function () {
+		scope.selection.remove();
+		scope.selection = null;
+		args.forEach(function (arg) {
+			scope.dispatch.on(arg,null);
+			console.log('event ' + arg + ' removed')
+		});
+		scope.dispatch=null;
+		scope = null;
 	}
 	
 	//Return our finished component.
