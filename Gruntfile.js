@@ -48,27 +48,23 @@ module.exports = function (grunt) {
 				cwd: 'dist/',
 				src: ['**'],
 				dest: '../viz/lib/'
+			},
+			viz_commercial_lib: {
+				expand: true,
+				cwd: 'dist/',
+				src: ['**'],
+				dest: '../viz-commercial/lib/'
 			}
 		},
 		uglify: {
 			options: {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
 				mangle: {
-					reserved: ['vizuly2', 'd3']
+					reserved: ['vizuly2', 'd3', 'd3v3']
 				},
 				toplevel: true
 			},
 			
-		},
-		concat: {
-			core_min : {
-				options : {
-					separator: '\n;'
-				},
-				src: ['dist/vizuly2_core.min.js', 'lib/d3v3_LegacyFunctions.js'],
-				dest: 'dist/vizuly2_core.min.js',
-				nonull: true
-			}
 		}
 	});
 	
@@ -90,7 +86,7 @@ module.exports = function (grunt) {
 			toplevel: true
 		},
 		files: {
-			'dist/vizuly2_core.min.js': ['src/*.js', 'src/svg/*.js']
+			'dist/vizuly2_core.min.js': ['src/*.js', 'src/svg/*.js', 'lib/d3v3_LegacyFunctions.js']
 		}
 	})
 	
@@ -108,7 +104,7 @@ module.exports = function (grunt) {
 	// 	}
 	// })
 	
-	grunt.registerTask('viz_core', ['exec:version_bump_patch', 'version', 'uglify:viz_core_min', 'concat', 'copy:site_lib', 'copy:viz_lib']);
+	grunt.registerTask('viz_core', ['exec:version_bump_patch', 'version', 'uglify:viz_core_min','copy:site_lib', 'copy:viz_lib', 'copy:viz_commercial_lib']);
 	
 	
 };

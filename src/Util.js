@@ -17,13 +17,29 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.66
+// @version 2.1.79
 
 /**
  * @class
  */
 vizuly2.core.util = {};
 
+
+vizuly2.core.util.getRelativeWidth = function(m0, parent) {
+	if (typeof m0 == "string" && m0.substr(m0.length - 1) == "%") {
+		var r = Math.min(Number(m0.substr(0, m0.length - 1)), 100) / 100;
+		return Math.round(parent.getBoundingClientRect().width * r);
+	}
+	return Number(m0);
+}
+
+vizuly2.core.util.getRelativeHeight = function(m0, parent) {
+	if (typeof m0 == "string" && m0.substr(m0.length - 1) == "%") {
+		var r = Math.min(Number(m0.substr(0, m0.length - 1)), 100) / 100;
+		return Math.round(parent.getBoundingClientRect().height * r);
+	}
+	return Number(m0);
+}
 
 /**
  * This function converts margin absolute or relative (%) values with a specified width/height into
@@ -44,10 +60,17 @@ vizuly2.core.util = {};
  *  @param {Number} height - measured in pixels
  *  @returns {object} Size object in this format: *{top:10, left:10, width:100, height:100}*
  */
-vizuly2.core.util.size = function (margin, width, height) {
+vizuly2.core.util.size = function (margin, width, height, parent) {
 
 	var size = {};
-
+	
+	if (parent) {
+		width = vizuly2.core.util.getRelativeWidth(width, parent);
+		height = vizuly2.core.util.getRelativeHeight(height, parent);
+	}
+	
+	size.measuredWidth = width;
+	size.measuredHeight = height;
 	size.width = width - vizuly2.core.util.measure(margin.left, width) - vizuly2.core.util.measure(margin.right, width);
 	size.height = height - vizuly2.core.util.measure(margin.top, height) - vizuly2.core.util.measure(margin.bottom, height);
 	size.top = vizuly2.core.util.measure(margin.top, height);
@@ -280,7 +303,7 @@ vizuly2.core.util.stackOffsetBaseline = function (series, order) {
 
 vizuly2.core.util.rgbToHex = function(color) {
 	
-	rgb = String(color).match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+	var rgb = String(color).match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
 	
 	return (rgb && rgb.length === 4) ? "#" +
 	 ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
