@@ -17,7 +17,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.82
+// @version 2.2.77
 
 
 /**
@@ -41,7 +41,7 @@ vizuly2.svg.filter.dropShadow = function (viz,dx,dy,blur) {
     var f = Math.round(dx*100) + "_" + Math.round(dy*100) + "_" + Math.round(blur*100);
     var id = viz.id();
 
-    var defs=vizuly2.core.util.getDefs(viz);
+    var defs=vizuly2.util.getDefs(viz);
 
     var filter = defs.selectAll("#vz_filter_" + id + "_" + f).data([f]).enter()
         .append("filter")

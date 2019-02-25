@@ -17,7 +17,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.82
+// @version 2.2.77
 
 /**
  * @class
@@ -52,7 +52,7 @@ vizuly2.svg.gradient.blend = function (viz,color1,color2,direction) {
         y1 = "100%"; y2="0%";
     }
 
-    var defs=vizuly2.core.util.getDefs(viz);
+    var defs=vizuly2.util.getDefs(viz);
 
     var gradient = defs.selectAll("#" + id).data([c]);
   
@@ -71,6 +71,57 @@ vizuly2.svg.gradient.blend = function (viz,color1,color2,direction) {
   
 };
 
+/**
+ * This function creates a color blend gradient across multiple colors for a given direction.
+ * It returns the id of this element to be referenced by specific SVG geometries.   If a previous gradient with the same parameters has already been
+ * created, it will return a reference to the previously created gradient.
+ *  @memberof vizuly2.svg.gradient
+ *  @function
+ *  @param {vizuly2.component} viz - The vizuly2.component
+ *  @param {String} color1 - hex value of first color
+ *  @param {String} color2 - hex value of second color
+ *  @param {String} direction - Either 'horizontal' or 'vertical'
+ *  @returns {String} - The id of the filter to be referenced.
+ */
+vizuly2.svg.gradient.blendMultiple = function (viz, colors, ratios, direction) {
+	
+	var cid = "";
+	colors.forEach(function (c) {
+	    cid += String(c).replace('#','') + '_'
+  })
+  
+	var id = "vz_gradient_blend_" + viz.id() + "_" + cid;
+	
+	var x1,x2,y1,y2;
+	
+	if (direction.toLowerCase() == "horizontal") {
+		x1 = "100%"; x2="0%";
+		y1 = "0%"; y2="0%";
+	}
+	else {
+		x1 = "0%"; x2="0%";
+		y1 = "100%"; y2="0%";
+	}
+	
+	var defs=vizuly2.util.getDefs(viz);
+	
+	var gradient = defs.selectAll("#" + id).data([cid]);
+	
+	gradient = gradient.enter()
+	 .append("linearGradient")
+	 .attr("id", id)
+	 .attr("class","vz-svg-gradient-blend")
+	 .attr("x1",x1).attr("x2",x2).attr("y1",y1).attr("y2",y2);
+	
+	colors.forEach(function (c, i) {
+	    gradient.append("stop").attr("offset", ratios[i] * 100 + '%').attr("stop-color", c)
+  })
+  
+	gradient = defs.selectAll("#" + id);
+	
+	return gradient;
+	
+};
 
 /**
  * This function creates a color blend gradient across two colors for a given direction.
@@ -89,7 +140,7 @@ vizuly2.svg.gradient.radialBlend = function (viz,cx,cy, color1, color2, offset1,
 	var c = String(color1).replace("#","") + String(color2).replace("#","") + String(offset1).replace('%','') + String(offset2).replace('%','');
 	var id = "vz_gradient_radial_blend_" + viz.id() + "_" + c;
  
-	var defs=vizuly2.core.util.getDefs(viz);
+	var defs=vizuly2.util.getDefs(viz);
 	
 	var gradient = defs.selectAll("#" + id).data([c]);
 	
@@ -140,7 +191,7 @@ vizuly2.svg.gradient.fade = function (viz,color,direction,opacity,ratio) {
 
     var x1,x2,y1,y2;
 
-    if (direction == "horizontal") {
+    if (direction.toLowerCase() == "horizontal") {
         x1 = "0%"; x2="100%";
         y1 = "0%"; y2="0%";
     }
@@ -149,7 +200,7 @@ vizuly2.svg.gradient.fade = function (viz,color,direction,opacity,ratio) {
         y1 = "100%"; y2="0%";
     }
 
-    var defs=vizuly2.core.util.getDefs(viz);
+    var defs=vizuly2.util.getDefs(viz);
 
     var gradient = defs.selectAll("#" + id).data([c]).enter()
         .append("linearGradient")
@@ -186,7 +237,7 @@ vizuly2.svg.gradient.radialFade = function (viz,color,opacity,ratio) {
     var c = String(color).replace("#","");
     var id = "vz_gradient_radial_fade" + viz.id() + "_" + c;
 
-    var defs=vizuly2.core.util.getDefs(viz);
+    var defs=vizuly2.util.getDefs(viz);
 
     var gradient = defs.selectAll("#" + id).data([c]).enter()
         .append("radialGradient")
@@ -220,7 +271,7 @@ vizuly2.svg.gradient.darker = function (viz,color,direction) {
 
     var x1,x2,y1,y2;
 
-    if (direction == "horizontal") {
+    if (direction.toLowerCase() == "horizontal") {
         x1 = "100%"; x2="0%";
         y1 = "0%"; y2="0%";
     }
@@ -229,7 +280,7 @@ vizuly2.svg.gradient.darker = function (viz,color,direction) {
         y1 = "100%"; y2="0%";
     }
 
-    var defs=vizuly2.core.util.getDefs(viz);
+    var defs=vizuly2.util.getDefs(viz);
 
     var gradient = defs.selectAll("#" + id).data([c]).enter()
         .append("linearGradient")

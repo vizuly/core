@@ -12,6 +12,14 @@ module.exports = function (grunt) {
 	    " Object.defineProperty(exports, '__esModule', { value: true });" +
 			"})));";
 	
+	var coreExportsHeaderReact =  " /* eslint-disable */ \n" +
+														"import * as d3 from 'd3'; \n" +
+	                          "var _viz = function () { \n";
+	
+	var coreExportsFooterReact =  "\n return vizuly2; \n" +
+														"}(); \n" +
+														"export default _viz;";
+	
 		
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -29,6 +37,12 @@ module.exports = function (grunt) {
 					prefix: '@version\\s*'
 				},
 				src: ['test/*.js','src/**/*.js']
+			},
+			namespace: {
+				options: {
+					prefix: "vizuly2.version='\\s*"
+				},
+				src: ['src/_namespace.js']
 			},
 			project: {
 				src: ['package.json']
@@ -54,6 +68,18 @@ module.exports = function (grunt) {
 				cwd: 'dist/',
 				src: ['**'],
 				dest: '../viz-commercial/lib/'
+			},
+			viz_react_lib: {
+				expand: true,
+				cwd: 'dist/',
+				src: ['**'],
+				dest: '../react/my-app/src/vizuly/lib'
+			},
+			viz_angular_lib: {
+				expand: true,
+				cwd: 'dist/',
+				src: ['**'],
+				dest: '../angular/my-app/src/vizuly/lib'
 			}
 		},
 		uglify: {
@@ -90,6 +116,21 @@ module.exports = function (grunt) {
 		}
 	})
 	
+	grunt.config(['uglify', 'viz_core_min_react'], {
+		options: {
+			banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n' + coreExportsHeaderReact,
+			footer: coreExportsFooterReact,
+			mangle: {
+				reserved: ['vizuly2', 'd3']
+			},
+			beautify: false,
+			toplevel: true
+		},
+		files: {
+			'dist/vizuly2_core_webpack.min.js': ['src/*.js', 'src/svg/*.js', 'lib/d3v3_LegacyFunctions.js']
+		}
+	})
+	
 	
 	// grunt.config(['uglify', 'viz_core'], {
 	// 	options: {
@@ -104,7 +145,7 @@ module.exports = function (grunt) {
 	// 	}
 	// })
 	
-	grunt.registerTask('viz_core', ['exec:version_bump_patch', 'version', 'uglify:viz_core_min','copy:site_lib', 'copy:viz_lib', 'copy:viz_commercial_lib']);
+	grunt.registerTask('viz_core', ['exec:version_bump_patch', 'version', 'uglify:viz_core_min', 'uglify:viz_core_min_react', 'copy']);
 	
 	
 };

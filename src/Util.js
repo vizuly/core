@@ -17,15 +17,15 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.82
+// @version 2.2.77
 
 /**
  * @class
  */
-vizuly2.core.util = {};
+vizuly2.util = {};
 
 
-vizuly2.core.util.getRelativeWidth = function(m0, parent) {
+vizuly2.util.getRelativeWidth = function(m0, parent) {
 	if (typeof m0 == "string" && m0.substr(m0.length - 1) == "%") {
 		var r = Math.min(Number(m0.substr(0, m0.length - 1)), 100) / 100;
 		return Math.round(parent.getBoundingClientRect().width * r);
@@ -33,7 +33,7 @@ vizuly2.core.util.getRelativeWidth = function(m0, parent) {
 	return Number(m0);
 }
 
-vizuly2.core.util.getRelativeHeight = function(m0, parent) {
+vizuly2.util.getRelativeHeight = function(m0, parent) {
 	if (typeof m0 == "string" && m0.substr(m0.length - 1) == "%") {
 		var r = Math.min(Number(m0.substr(0, m0.length - 1)), 100) / 100;
 		return Math.round(parent.getBoundingClientRect().height * r);
@@ -48,7 +48,7 @@ vizuly2.core.util.getRelativeHeight = function(m0, parent) {
  * @example
  *
  * var margin = {top: 10, bottom:10, left:'10%', right: '10%'}
- * var size = vizuly2.core.util.size(margin, 500, 500);
+ * var size = vizuly2.util.size(margin, 500, 500);
  *
  * //size.width == 400
  * //size.height == 480
@@ -60,23 +60,23 @@ vizuly2.core.util.getRelativeHeight = function(m0, parent) {
  *  @param {Number} height - measured in pixels
  *  @returns {object} Size object in this format: *{top:10, left:10, width:100, height:100}*
  */
-vizuly2.core.util.size = function (margin, width, height, parent) {
+vizuly2.util.size = function (margin, width, height, parent) {
 
 	var size = {};
 	
 	if (parent) {
-		width = vizuly2.core.util.getRelativeWidth(width, parent);
-		height = vizuly2.core.util.getRelativeHeight(height, parent);
+		width = vizuly2.util.getRelativeWidth(width, parent);
+		height = vizuly2.util.getRelativeHeight(height, parent);
 	}
 	
 	size.measuredWidth = width;
 	size.measuredHeight = height;
-	size.width = width - vizuly2.core.util.measure(margin.left, width) - vizuly2.core.util.measure(margin.right, width);
-	size.height = height - vizuly2.core.util.measure(margin.top, height) - vizuly2.core.util.measure(margin.bottom, height);
-	size.top = vizuly2.core.util.measure(margin.top, height);
-	size.left = vizuly2.core.util.measure(margin.left, width);
-	size.bottom = vizuly2.core.util.measure(margin.bottom, height);
-	size.right = vizuly2.core.util.measure(margin.right, width);
+	size.width = width - vizuly2.util.measure(margin.left, width) - vizuly2.util.measure(margin.right, width);
+	size.height = height - vizuly2.util.measure(margin.top, height) - vizuly2.util.measure(margin.bottom, height);
+	size.top = vizuly2.util.measure(margin.top, height);
+	size.left = vizuly2.util.measure(margin.left, width);
+	size.bottom = vizuly2.util.measure(margin.bottom, height);
+	size.right = vizuly2.util.measure(margin.right, width);
 
 	return size;
 }
@@ -90,7 +90,7 @@ vizuly2.core.util.size = function (margin, width, height, parent) {
  *  @param {number|string|date} value - Used to determine which type of scale to create.
  *  @returns {vizuly2.d3.scale.linear|vizuly2.d3.scale.ordinal|vizuly2.d3.time.scale }
  */
-vizuly2.core.util.getTypedScale = function (value) {
+vizuly2.util.getTypedScale = function (value) {
 	var scale;
 	if (typeof value == 'string') {
 		scale = vizuly2.d3.scaleBand();
@@ -109,10 +109,10 @@ vizuly2.core.util.getTypedScale = function (value) {
  * This function will see if we are using a relative (%) value against a given measure
  * If we are it calculates the percentage value and returns that
  * If we aren't it just returns the original m0 parameter
- * This is primarily used by the vizuly2.core.util.size function.
+ * This is primarily used by the vizuly2.util.size function.
  * @example
  *
- * var width = vizuly2.core.util.measure(100,100);
+ * var width = vizuly2.util.measure(100,100);
  * //width == 100;
  *
  * var width = vizul.util.measure('50%',100);
@@ -122,7 +122,7 @@ vizuly2.core.util.getTypedScale = function (value) {
  *  @param {m1} min - The comparison value we use if we want a relative (%) measure.
  *  @returns {Number} The return value.
  */
-vizuly2.core.util.measure = function (m0, m1) {
+vizuly2.util.measure = function (m0, m1) {
 	if (typeof m0 == 'string' && m0.substr(m0.length - 1) == '%') {
 		var r = Math.min(Number(m0.substr(0, m0.length - 1)), 100) / 100;
 		return (Math.round(m1 * r));
@@ -133,10 +133,10 @@ vizuly2.core.util.measure = function (m0, m1) {
 
 /**
  * This function generates a unique identifier used by all vizuly2.core.components in their DOM id.
- *  @memberOf vizuly2.core.util
+ *  @memberOf vizuly2.util
  *  @function
  */
-vizuly2.core.util.guid = function () {
+vizuly2.util.guid = function () {
 	/* REAL GUID
 	 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 	 var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
@@ -159,7 +159,7 @@ vizuly2.core.util.guid = function () {
  *  @function
  *  @returns {vizuly2.d3.selection} svg 'defs' selection.
  */
-vizuly2.core.util.getDefs = function (viz) {
+vizuly2.util.getDefs = function (viz) {
 	var defs = viz.selection().selectAll('svg defs');
 	if (defs.nodes() && defs.nodes().length < 1)
 		defs = viz.selection().select('svg').append('defs');
@@ -173,13 +173,17 @@ vizuly2.core.util.getDefs = function (viz) {
  *  @function
  *  @returns {String} CSS friendly key
  */
-vizuly2.core.util.createCSSKey = function (s) {
-	s = String(s).replace(',', '_');
-	s = s.replace(/[\s+,'+,\.,\(,\),\',\&,\/]/g, '');
-	s = 'css' + s.toUpperCase();
-	return s;
+vizuly2.util.createCSSKey = function (s) {
+	return 'css' + vizuly2.util.cleanString(s);
 }
 
+
+vizuly2.util.cleanString = function (s) {
+	var r = String(s).replace(',', '_');
+	r = r.replace(/[\s+,'+,\.,\(,\),\',\&,\/]/g, '');
+	r = r.toUpperCase();
+	return r;
+}
 
 /**
  * This function will take a vizuly2.d3.nest and perform rollup aggregtations against a given set of properties.
@@ -196,7 +200,7 @@ vizuly2.core.util.createCSSKey = function (s) {
  *   .key(function (d) { return d.Level3; })
  *   .entries(values);
  *
- * vizuly2.core.util.aggregateNest(nest, ['propertyA','propertyB'], function (a, b) {
+ * vizuly2.util.aggregateNest(nest, ['propertyA','propertyB'], function (a, b) {
  *      return Number(a) + Number(b);
  * });
  *
@@ -207,7 +211,7 @@ vizuly2.core.util.createCSSKey = function (s) {
  *  @param {array} properties - A list of object property names.
  *  @param {function} calculation - The function that will peform the aggregation calculation. (i.e. sum, mean, avg. etc..)
  */
-vizuly2.core.util.aggregateNest = function (nest, properties, calculation) {
+vizuly2.util.aggregateNest = function (nest, properties, calculation) {
 
 	//Go down to the last depth and get source values so we can roll them up t
 
@@ -272,7 +276,7 @@ vizuly2.core.util.aggregateNest = function (nest, properties, calculation) {
  * *2016, June, Jun 18*
  *
  */
-vizuly2.core.util.format_YEAR_Mon_MonDay = function (date) {
+vizuly2.util.format_YEAR_Mon_MonDay = function (date) {
 	var formatMillisecond = vizuly2.d3.timeFormat('.%L'),
 		formatSecond = vizuly2.d3.timeFormat(':%S'),
 		formatMinute = vizuly2.d3.timeFormat('%I:%M'),
@@ -293,7 +297,7 @@ vizuly2.core.util.format_YEAR_Mon_MonDay = function (date) {
 }
 
 
-vizuly2.core.util.stackOffsetBaseline = function (series, order) {
+vizuly2.util.stackOffsetBaseline = function (series, order) {
 	if ((n = series.length) > 1) {
 		var n, i = 1, s1 = series[order[0]];
 		for (s1.length; i < n; ++i) s1, s1 = series[order[i]];
@@ -301,7 +305,7 @@ vizuly2.core.util.stackOffsetBaseline = function (series, order) {
 }
 
 
-vizuly2.core.util.rgbToHex = function(color) {
+vizuly2.util.rgbToHex = function(color) {
 	
 	var rgb = String(color).match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
 	
@@ -312,4 +316,44 @@ vizuly2.core.util.rgbToHex = function(color) {
 	
 }
 
+vizuly2.util.transitionOnEnd = function (transition, callback) {
+	var count = 0;
+	transition
+	 .on('start', function () { count++ })
+	 .on('end', function () {
+		 if( --count === 0 ) {
+			 callback();
+		 }
+	 })
+}
+
+vizuly2.util.colorBrightness = function (c) {
+	return (c.r * 299 + c.g * 587 + c.b * 114) / 1000;
+}
+
+vizuly2.util.scaleRadial = function () {
+	
+	var linear = vizuly2.d3.scaleLinear();
+	
+	function scale(x) {
+		return Math.sqrt(linear(x));
+	}
+	
+	scale.domain = function(_) {
+		return arguments.length ? (linear.domain(_), scale) : linear.domain();
+	};
+	
+	scale.nice = function(count) {
+		return (linear.nice(count), scale);
+	};
+	
+	scale.range = function(_) {
+		return arguments.length ? (linear.range(_.map(function (x) { return x * x })), scale) : linear.range().map(Math.sqrt);
+	};
+	
+	scale.ticks = linear.ticks;
+	scale.tickFormat = linear.tickFormat;
+	
+	return scale;
+}
 

@@ -17,19 +17,33 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.1.82
+// @version 2.2.77
 
 // This contains all vizuly2.namespaces and enumerators.
 
 /**
  * @namespace vizuly
  */
-var vizuly2 = {};
+var vizuly2 = {}
 
-vizuly2.d3 =  window.d3v4 || window.d3;
+vizuly2.version='2.2.77';
+
+vizuly2.loadD3 = function (_) {
+	vizuly2.d3 = _;
+}
+
+if (typeof window.d3v4 != 'undefined' ) {
+	vizuly2.d3 =  window.d3v4
+}
+else if (typeof d3 != 'undefined') {
+	vizuly2.d3 = d3;
+}
+else if (typeof window.d3 != 'undefined') {
+	vizuly2.d3 = window.d3;
+}
 
 if (!vizuly2.d3) {
-	console.log('WARNING - No D3 library found for vizuly2!  Please load D3 library first.')
+	console.log('WARNING - No D3 library found for vizuly2!  Please load D3 library before instantiating a component.')
 }
 else {
 	if (Number(vizuly2.d3.version.substr(0,1)) < 4) {
