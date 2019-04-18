@@ -17,7 +17,7 @@
  IN THE SOFTWARE.
  */
 
-// @version 2.2.77
+// @version 2.2.78
 
 // This contains all vizuly2.namespaces and enumerators.
 
@@ -26,7 +26,7 @@
  */
 var vizuly2 = {}
 
-vizuly2.version='2.2.77';
+vizuly2.version='2.2.78';
 
 vizuly2.loadD3 = function (_) {
 	vizuly2.d3 = _;
