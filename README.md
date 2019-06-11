@@ -1,4 +1,4 @@
-#Vizuly Core Framework
+##Vizuly Core Framework
 
 
 These files comprise the vizuly core framework which is a lightweight factory that is used by Vizuly Components to generate public properties, events, styles, and change watchers.  
