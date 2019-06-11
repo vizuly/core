@@ -73,13 +73,13 @@ module.exports = function (grunt) {
 				expand: true,
 				cwd: 'dist/',
 				src: ['**'],
-				dest: '../react/my-app/src/vizuly/lib'
+				dest: '../frameworks/react/my-app/src/vizuly/lib'
 			},
 			viz_angular_lib: {
 				expand: true,
 				cwd: 'dist/',
 				src: ['**'],
-				dest: '../angular/my-app/src/vizuly/lib'
+				dest: '../frameworks/angular/my-app/src/vizuly/lib'
 			}
 		},
 		uglify: {
