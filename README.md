@@ -10,3 +10,6 @@ This is relatively stable code that does not change much, as most code changes o
 All vizuly documentation can be located here:
 
 [docs](https://vizuly.io/docs/)
+
+License: MIT
+(c) 2016 - 2019 Thomas W. Gonzalez
